@@ -1,4 +1,4 @@
-SRCS	=	ft_printf.c
+SRCS	=	ft_printf.c	ft_itoa_unsigned.c	ft_itoa_hex.c	ft_itoa_ptr.c
 
 OBJS	= ${SRCS:.c=.o}
 
@@ -12,7 +12,7 @@ RM		= rm -f
 
 ${NAME}:	${LIBFT} ${OBJS}
 			cp ${LIBDIR}/${LIBFT} ${NAME}
-			ar -rs ${NAME} ${OBJS}
+			ar -rcs ${NAME} ${OBJS}
 
 ${LIBFT}:
 			make -C ${LIBDIR}

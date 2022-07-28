@@ -6,39 +6,53 @@
 /*   By: rmoura-r <rmoura-r@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:48:11 by rmoura-r          #+#    #+#             */
-/*   Updated: 2022/07/07 21:34:45 by rmoura-r         ###   ########.fr       */
+/*   Updated: 2022/07/28 19:48:57 by rmoura-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	flag_print(char a, va_list args)
+static int	flag_print1(char a, va_list args)
 {
-	//va_list	argcpy;
 	char	*str;
-	
+
 	if (a == 'c')
+	{
 		ft_putchar_fd(va_arg(args, int), 1);
-	else if (a == 's')
+		return (1);
+	}
+	if (a == 's')
 	{
 		str = va_arg(args, char *);
+		if (str == NULL)
+			str = "(null)";
 		ft_putstr_fd(str, 1);
 		return (ft_strlen(str));
 	}
-	//else if (a == p)
-	// p (unsigned long long?)
-	else if (a == 'i' || a == 'd')
-	{
+	if (a == '%')
+		return (write(1, "%", 1));
+	return (0);
+}
+
+static int	flag_print2(char a, va_list args)
+{
+	char	*str;
+	int		len;
+
+	if (a == 'p')
+		str = ft_itoa_ptr(va_arg(args, unsigned long), "0123456789abcdef");
+	if (a == 'd' || a == 'i')
 		str = ft_itoa(va_arg(args, int));
-		ft_putstr_fd(str, 1);
-		return (ft_strlen(str));
-	}
-	// u
-	// x
-	// X
-	else if (a == '%')
-		ft_putchar_fd(a, 1);
-	return (1);
+	if (a == 'u')
+		str = ft_itoa_unsigned(va_arg(args, unsigned int));
+	if (a == 'x')
+		str = ft_itoa_hex(va_arg(args, unsigned int), "0123456789abcdef");
+	if (a == 'X')
+		str = ft_itoa_hex(va_arg(args, unsigned int), "0123456789ABCDEF");
+	len = ft_strlen(str);
+	ft_putstr_fd(str, 1);
+	free(str);
+	return (len);
 }
 
 int	ft_printf(const char *str, ...)
@@ -46,15 +60,20 @@ int	ft_printf(const char *str, ...)
 	va_list	args;
 	int		i;
 	int		len;
-	
+
 	i = 0;
 	len = 0;
 	va_start(args, str);
 	while (str[i] != '\0')
 	{
-		if (str[i] == '%')
+		if (str[i] == '%' && ft_strchr("cs%", str[i + 1]))
 		{
-			len += flag_print(str[i + 1], args);
+			len += flag_print1(str[i + 1], args);
+			i++;
+		}
+		else if (str[i] == '%' && ft_strchr("pdiuxX", str[i + 1]))
+		{
+			len += flag_print2(str[i + 1], args);
 			i++;
 		}
 		else
@@ -65,14 +84,15 @@ int	ft_printf(const char *str, ...)
 	return (len);
 }
 
+/* #include <stdio.h>
 
-#include <stdio.h>
 int	main(void)
 {
-	char	ex[] = "abc";
-	int		i;
+	char	ex[] = "abcd";
+	int		i, j;
 	
-	i = ft_printf("%s\n%c\n%i\n%d", ex, 'k', 56, 999);
-	printf("\noutput: %i\n", i);
-}
-
+	
+	i = ft_printf("%s\n%p\n%c\n%i\n%x\n", ex, ex, 'k', 56, 9199999);
+	j = printf("%s\n%p\n%c\n%i\n%x\n", ex, ex, 'k', 56, 9199999);
+	printf(" ft_: %i\norig: %i\n", i, j);
+} */
