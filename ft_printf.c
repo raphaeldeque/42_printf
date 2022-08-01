@@ -6,7 +6,7 @@
 /*   By: rmoura-r <rmoura-r@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/30 21:48:11 by rmoura-r          #+#    #+#             */
-/*   Updated: 2022/07/28 19:48:57 by rmoura-r         ###   ########.fr       */
+/*   Updated: 2022/08/01 17:14:19 by rmoura-r         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,3 @@ int	ft_printf(const char *str, ...)
 	va_end(args);
 	return (len);
 }
-
-/* #include <stdio.h>
-
-int	main(void)
-{
-	char	ex[] = "abcd";
-	int		i, j;
-	
-	
-	i = ft_printf("%s\n%p\n%c\n%i\n%x\n", ex, ex, 'k', 56, 9199999);
-	j = printf("%s\n%p\n%c\n%i\n%x\n", ex, ex, 'k', 56, 9199999);
-	printf(" ft_: %i\norig: %i\n", i, j);
-} */
