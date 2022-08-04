@@ -1,4 +1,4 @@
-SRCS	=	ft_printf.c	ft_itoa_unsigned.c	ft_itoa_hex.c	ft_itoa_ptr.c
+SRCS	= ft_printf.c	ft_itoa_unsigned.c	ft_itoa_hex.c	ft_itoa_ptr.c
 
 OBJS	= ${SRCS:.c=.o}
 
